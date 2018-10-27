@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "322107008301",
+    "firebase_url": "https://nhahang-9c7b7.firebaseio.com",
+    "project_id": "nhahang-9c7b7",
+    "storage_bucket": "nhahang-9c7b7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:322107008301:android:331c737a0cda5385",
+        "android_client_info": {
+          "package_name": "com.example.anhduy.xmlproject_nhahang"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "322107008301-a25ida25dn1hjp70vfvbei3r68ihe9t0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSP7MkGYB79LlmZJeKm_EtkaR1ugxOFDQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

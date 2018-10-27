@@ -1,0 +1,359 @@
+package com.example.anhduy.xmlproject_nhahang;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.common.util.ArrayUtils;
+import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+public class MainActivity extends AppCompatActivity {
+
+    public static String response = "null";
+    public static ArrayList<Menu> database;
+
+    //Lưu vị trí của một món ăn cụ thể NẰM TRONG MẢNG DATABASE (nếu chưa hiểu nhắc tui nói lại cho)
+    private ArrayList<Integer> itemPosition;
+
+    //Lưu vị trí các món ăn đã được chọn
+    private ArrayList<Integer> selectedFoodPosition;
+
+    //Loại món ăn hiện tại đang lựa chọn
+    private String TypeChose;
+
+
+
+
+    Spinner spinner;
+    SwipeRefreshLayout swipeRefreshLayout;
+    ListView listView;
+    CustomAdapter adapter;
+
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+        //Khởi tạo giá trị mặc định
+        Init();
+
+
+        //Tiến hành load database
+        LoadDatabase();
+
+
+        //Xử lý liên quan đến dropbox
+        SetUpDropDownBox();
+
+
+        //Load list view lần đầu
+        LoadListView();
+
+
+        //Refresh listview: load lại database khi vuốt màn hình xuống
+        RefreshListView();
+
+
+        //Xử lý sự kiện khi click vào item của listview
+        OnClickListView();
+
+
+
+
+
+    }
+/*      Không cần cái này nữa, xóa bên ông luôn đi
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ListView listView = (ListView)findViewById(R.id.listView);
+        CustomAdapter adapter = new CustomAdapter();
+        listView.setAdapter(adapter);
+    }*/
+
+    private void Init(){
+        listView = (ListView)findViewById(R.id.listView);
+        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
+        database = new ArrayList<Menu>();
+        adapter = new CustomAdapter();
+        spinner = (Spinner)findViewById(R.id.spinner);
+
+        itemPosition = new ArrayList<Integer>();
+        selectedFoodPosition = new ArrayList<Integer>();
+    }
+
+
+    private void SetUpDropDownBox(){
+        ArrayAdapter<String> stringAdapter = new ArrayAdapter<String>(MainActivity.this,
+                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.Type));
+        stringAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(stringAdapter);
+        TypeChose = spinner.getSelectedItem().toString();
+
+
+        //Xử lý khi chọn item cho dropbox
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                //Chỉ update listview khi chọn item khác item đã chọn trước đó
+                if(spinner.getSelectedItem().toString().compareTo(TypeChose) != 0) {
+                    listView.setAdapter(null);
+
+
+                    itemPosition.clear();
+                    TypeChose = spinner.getSelectedItem().toString();
+
+
+                    listView.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+
+            }
+
+        });
+    }
+
+
+    private void LoadDatabase(){
+        MenuMonAn task = new MenuMonAn();
+        task.execute(new String[]{""});
+    }
+
+
+
+    private void LoadListView(){
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                listView.setAdapter(adapter);
+            }
+        }, 2000);   //chờ 2 second cho database load xong rồi mới hiện wiew
+        //response = task.response;
+
+    }
+
+
+    private void OnClickListView(){
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                CheckBox checkbox = (CheckBox)view.findViewById(R.id.checkBox);
+
+                //Check nếu món vừa chọn đã chọn trước đó hay chưa
+                if(selectedFoodPosition.contains(itemPosition.get(i))){
+                    selectedFoodPosition.remove(itemPosition.get(i));
+                    checkbox.setChecked(false);
+                }else{
+                    selectedFoodPosition.add(itemPosition.get(i));
+                    checkbox.setChecked(true);
+                }
+
+                /* //Chỉ để debug
+                String count = "";
+                for(int k = 0 ; k < selectedFoodPosition.size() ; k++){
+                    if(k == 0){
+                        count += database.get(selectedFoodPosition.get(k)).Name;
+                    }else {
+                        count = count + ";" + database.get(selectedFoodPosition.get(k)).Name;
+                    }
+                }
+
+                Toast.makeText(MainActivity.this,"You select: " + count ,Toast.LENGTH_SHORT).show();*/
+            }
+        });
+    }
+
+    private void RefreshListView(){
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                        listView.setAdapter(null);
+
+
+                        itemPosition.clear();
+                        TypeChose = spinner.getSelectedItem().toString();
+
+
+                        LoadDatabase();
+                        listView.setAdapter(adapter);
+
+
+                        Toast.makeText(MainActivity.this,"Database Updated!", Toast.LENGTH_SHORT).show();
+                    }
+                },1000);
+            }
+        });
+    }
+
+
+
+    class CustomAdapter extends BaseAdapter{
+
+        @Override
+        public int getCount() {
+            int count = 0;
+
+            //Phân loại món để show lên listview
+            for(int i = 0 ; i < database.size() ; i++){
+                if(database.get(i).Type.compareTo(TypeChose) == 0){
+                    count++;
+                    itemPosition.add(i);
+                }
+            }
+
+            return count;
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            view = getLayoutInflater().inflate(R.layout.customlayout,null);
+                ImageView image = (ImageView) view.findViewById(R.id.foodImage);
+                TextView text_TenMon = (TextView) view.findViewById(R.id.text_TenMon);
+                TextView text_Gia = (TextView) view.findViewById(R.id.text_Gia);
+                CheckBox checkbox = (CheckBox)view.findViewById(R.id.checkBox);
+
+                Picasso.get().load(database.get(itemPosition.get(i)).ImageUrl).into(image);
+
+                text_TenMon.setText(database.get(itemPosition.get(i)).Name);
+                text_Gia.setText("N: " + database.get(itemPosition.get(i)).PriceSmall + " VND\nL: " + database.get(itemPosition.get(i)).PriceBig + " VND");
+
+            if(selectedFoodPosition.contains(itemPosition.get(i))){
+                checkbox.setChecked(true);
+            }else{
+                checkbox.setChecked(false);
+            }
+            return view;
+        }
+    }
+
+
+
+
+    public static void ReadData(String xmlString){
+        if(database.isEmpty() == false) {
+            database.clear();
+        }
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            InputSource is = new InputSource(new StringReader(xmlString));
+
+            Document doc = builder.parse(is);
+            Element root = doc.getDocumentElement();
+            NodeList list = root.getElementsByTagName("Menu");
+            for (int i = 0; i < list.getLength(); i++) {
+                Node node = list.item(i);
+                if(node instanceof Element) {
+                    Element Item = (Element) node;
+                    NodeList listChild = Item.getElementsByTagName("STT");
+                    int STT = Integer.parseInt(listChild.item(0).getTextContent());
+
+                    listChild = Item.getElementsByTagName("Name");
+                    String Name = listChild.item(0).getTextContent();
+
+                    listChild = Item.getElementsByTagName("PriceSmall");
+                    int PriceSmall = Integer.parseInt(listChild.item(0).getTextContent());
+
+                    listChild = Item.getElementsByTagName("PriceBig");
+                    int PriceBig = Integer.parseInt(listChild.item(0).getTextContent());
+
+                    listChild = Item.getElementsByTagName("Type");
+                    String Type = listChild.item(0).getTextContent();
+
+                    listChild = Item.getElementsByTagName("ImageUrl");
+                    String ImageUrl = listChild.item(0).getTextContent();
+
+                    Menu food = new Menu();
+                    food.STT = STT;
+                    food.Name = Name;
+                    food.PriceSmall = PriceSmall;
+                    food.PriceBig = PriceBig;
+                    food.Type = Type;
+                    food.ImageUrl = ImageUrl;
+                    database.add(food);
+                }
+            }
+                }catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+//chưa xài, dùng để check nếu đt có đang kết nối mạng hay ko
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+}

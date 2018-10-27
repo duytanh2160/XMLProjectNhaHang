@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">XMLProject  - NhaHang</string>
+    <string-array name="Type">
+        <item>KHAI VỊ</item>
+        <item>MÓN MẶN</item>
+        <item>ĐỒ UỐNG</item>
+        <item>TRÁNG MIỆNG</item>
+    </string-array>
+</resources>
