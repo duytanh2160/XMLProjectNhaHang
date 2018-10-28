@@ -1,5 +1,6 @@
 package com.example.anhduy.xmlproject_nhahang;
 
+import android.content.Intent;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -41,6 +42,7 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -65,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
 
     //Loại món ăn hiện tại đang lựa chọn
     private String TypeChose;
+
+    private Toast forgetToSelectToast;
 
 
 
@@ -110,19 +114,20 @@ public class MainActivity extends AppCompatActivity {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(selectedFoodPosition.size() == 0){
+                    forgetToSelectToast.show();
+                }else {
+                Bundle bundle = new Bundle();
+                bundle.putIntegerArrayList("SelectedFood",selectedFoodPosition);
 
+                    Intent intent = new Intent(MainActivity.this, DoneSelectingActivity.class);
+                    intent.putExtra("Package",bundle);
+                    startActivity(intent);
+                }
             }
         });
 
     }
-/*      Không cần cái này nữa, xóa bên ông luôn đi
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ListView listView = (ListView)findViewById(R.id.listView);
-        CustomAdapter adapter = new CustomAdapter();
-        listView.setAdapter(adapter);
-    }*/
 
     private void Init(){
         listView = (ListView)findViewById(R.id.listView);
@@ -131,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
         adapter = new CustomAdapter();
         spinner = (Spinner)findViewById(R.id.spinner);
         doneButton = (Button)findViewById(R.id.button_Done);
+
+        forgetToSelectToast = Toast.makeText(MainActivity.this,"Bạn chưa chọn món nào cả",Toast.LENGTH_SHORT);
 
         itemPosition = new ArrayList<Integer>();
         selectedFoodPosition = new ArrayList<Integer>();
