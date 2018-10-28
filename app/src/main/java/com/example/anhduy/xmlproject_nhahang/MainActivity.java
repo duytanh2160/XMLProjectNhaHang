@@ -10,6 +10,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.v4.media.AudioAttributesCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -71,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     SwipeRefreshLayout swipeRefreshLayout;
     ListView listView;
     CustomAdapter adapter;
-
+    Button doneButton;
 
 
 
@@ -105,8 +107,12 @@ public class MainActivity extends AppCompatActivity {
         OnClickListView();
 
 
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-
+            }
+        });
 
     }
 /*      Không cần cái này nữa, xóa bên ông luôn đi
@@ -124,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         database = new ArrayList<Menu>();
         adapter = new CustomAdapter();
         spinner = (Spinner)findViewById(R.id.spinner);
+        doneButton = (Button)findViewById(R.id.button_Done);
 
         itemPosition = new ArrayList<Integer>();
         selectedFoodPosition = new ArrayList<Integer>();
@@ -132,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void SetUpDropDownBox(){
         ArrayAdapter<String> stringAdapter = new ArrayAdapter<String>(MainActivity.this,
-                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.Type));
+                R.layout.spinner_item,getResources().getStringArray(R.array.Type));
         stringAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(stringAdapter);
         TypeChose = spinner.getSelectedItem().toString();
