@@ -9,10 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -21,6 +23,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.jar.Attributes;
 
+import at.markushi.ui.CircleButton;
 import de.codecrafters.tableview.TableView;
 
 public class DoneSelectingActivity extends Activity {
@@ -44,6 +47,8 @@ public class DoneSelectingActivity extends Activity {
     TextView textGia;
     TextView textMieuTa;
     ImageView imgView;
+
+    CircleButton orderButton;
 
     CustomAdapter customAdapter;
     ListView listView;
@@ -144,6 +149,10 @@ public class DoneSelectingActivity extends Activity {
         }
     }
 
+    public void orderConfirmFunction(View view){
+
+
+    }
 
 /*    private void LoadListView(){
         Handler handler = new Handler();
@@ -165,6 +174,7 @@ public class DoneSelectingActivity extends Activity {
 
             //itemPosition = new ArrayList<Integer>();
 
+            orderButton = (CircleButton) findViewById(R.id.buttonOrderConfirm);
 
             customAdapter = new CustomAdapter();
             listView = (ListView)findViewById(R.id.listView);
