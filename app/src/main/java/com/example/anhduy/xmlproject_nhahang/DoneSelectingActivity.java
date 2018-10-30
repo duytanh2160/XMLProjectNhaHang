@@ -30,13 +30,13 @@ public class DoneSelectingActivity extends Activity {
     //Xác nhận order bằng button
 
     //Lưu vị trí của một món ăn cụ thể NẰM TRONG MẢNG DATABASE (nếu chưa hiểu nhắc tui nói lại cho)
-    private ArrayList<Integer> itemPosition;
+    //private ArrayList<Integer> itemPosition;
 
     //Loại món ăn hiện tại đang lựa chọn
-    private String TypeChose;
+    //private String TypeChose;
 
 
-    TableView tableView;
+    //TableView tableView;
     TextView labelTenMon;
     TextView labelGia;
     TextView labelMieuTa;
@@ -53,6 +53,11 @@ public class DoneSelectingActivity extends Activity {
     Intent callerIntent;
     Bundle packageFromCaller;
 
+    String name = "";
+    String priceSmall = "";
+    String priceBig = "";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,71 +65,87 @@ public class DoneSelectingActivity extends Activity {
 
         Init();
 
-        LoadListView();
+        listView.setAdapter(customAdapter);
+       // LoadListView();
+
+
+        ///PHẦN NÀY CHỈ HIỆN ĐƯỢC 1 MÓN
+       /* String img = "";
+        String name = "";
+        String priceSmall = "";
+        String priceBig = "";
+
+        //Nếu không sử dụng listView thì cả phần này chỉ hiển thị 1 món đã chọn
+        //Nếu chọn 2 món -> bị đè
+        for (int i = 0; i < selectedFoodPosition.size(); i++) {
+            if (i == 0) {
+                img += database.get(selectedFoodPosition.get(i)).ImageUrl;
+                name += database.get(selectedFoodPosition.get(i)).Name;
+                priceSmall += database.get(selectedFoodPosition.get(i)).PriceSmall;
+                priceBig += database.get(selectedFoodPosition.get(i)).PriceBig;
+
+            } else {
+                img = img + ";" + database.get(selectedFoodPosition.get(i)).ImageUrl;
+                name = name + ";" + database.get(selectedFoodPosition.get(i)).Name;
+                priceSmall = priceSmall + ";" + database.get(selectedFoodPosition.get(i)).PriceSmall;
+                priceBig = priceBig + ";" + database.get(selectedFoodPosition.get(i)).PriceBig;
+
+            }
+
+            Picasso.get().load(database.get(selectedFoodPosition.get(i)).ImageUrl).into(imgView);
+            //textGia.setText("L: " + priceBig);
+        }*/
     }
 
+    public class CustomAdapter extends BaseAdapter{
 
-    class CustomAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
-            int count = 0;
 
-            //Đưa các món ăn đã chọn lên listView
-            for(int i = 0 ; i < database.size() ; i++){
-                if(database.get(i).Type.compareTo(TypeChose) == 0){
-                    count++;
-                    itemPosition.add(i);
-                }
-            }
-            return count;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
             return 0;
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            view = getLayoutInflater().inflate(R.layout.activity_doneselecting, null);
+        public Object getItem(int position) {
+            return null;
+        }
 
-            String img = "";
-            String name = "";
-            String priceSmall = "";
-            String priceBig = "";
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
 
-            //Nếu không sử dụng listView thì cả phần này chỉ hiển thị 1 món đã chọn
-            //Nếu chọn 2 món -> bị đè
-            for(i = 0 ; i < selectedFoodPosition.size() ; i++){
-                if(i == 0){
-                    img += database.get(selectedFoodPosition.get(i)).ImageUrl;
-                    name += database.get(selectedFoodPosition.get(i)).Name;
-                    priceSmall += database.get(selectedFoodPosition.get(i)).PriceSmall;
-                    priceBig += database.get(selectedFoodPosition.get(i)).PriceBig;
+        @Override
+        public View getView(int i, View view, ViewGroup parent) {
+            view = getLayoutInflater().inflate(R.layout.activity_doneselecting,null);
+            textTenMon = (TextView) findViewById(R.id.text_TenMon);
+            textGia = (TextView) findViewById(R.id.text_Gia);
 
-                }else {
-                    img = img + ";" + database.get(selectedFoodPosition.get(i)).ImageUrl;
-                    name = name + ";" + database.get(selectedFoodPosition.get(i)).Name;
-                    priceSmall = priceSmall + ";" + database.get(selectedFoodPosition.get(i)).PriceSmall;
-                    priceBig = priceBig + ";" + database.get(selectedFoodPosition.get(i)).PriceBig;
 
-                }
+            if (i == 0) {
+             //   img += database.get(selectedFoodPosition.get(i)).ImageUrl;
+                name += database.get(selectedFoodPosition.get(i)).Name;
+                priceSmall += database.get(selectedFoodPosition.get(i)).PriceSmall;
+                priceBig += database.get(selectedFoodPosition.get(i)).PriceBig;
 
-                textTenMon.setText(name);
-                textGia.setText("N: " + priceSmall);
-                textMieuTa.setText("L: " + priceBig);
+            } else {
+             //   img = img + ";" + database.get(selectedFoodPosition.get(i)).ImageUrl;
+                name = name + ";" + database.get(selectedFoodPosition.get(i)).Name;
+                priceSmall = priceSmall + ";" + database.get(selectedFoodPosition.get(i)).PriceSmall;
+                priceBig = priceBig + ";" + database.get(selectedFoodPosition.get(i)).PriceBig;
+
             }
+            Picasso.get().load(database.get(selectedFoodPosition.get(i)).ImageUrl).into(imgView);
+            textTenMon.setText(name);
+            textGia.setText("N: " + priceSmall +"VND\nL: " + priceBig + "VND");
+
             return view;
         }
     }
 
-    private void LoadListView(){
+
+/*    private void LoadListView(){
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
@@ -132,33 +153,33 @@ public class DoneSelectingActivity extends Activity {
             }
         }, 2000);   //chờ 2 second cho database load xong rồi mới hiện wiew
         //response = task.response;
+    }*/
 
+        protected void Init(){
+            callerIntent = getIntent();
+            packageFromCaller = callerIntent.getBundleExtra("Package");
+
+            database = new ArrayList<Menu>();
+            database = MainActivity.database;
+            selectedFoodPosition = packageFromCaller.getIntegerArrayList("SelectedFood");
+
+            //itemPosition = new ArrayList<Integer>();
+
+
+            customAdapter = new CustomAdapter();
+            listView = (ListView)findViewById(R.id.listView);
+
+            imgView = (ImageView) findViewById(R.id.foodImage);
+            labelTenMon = (TextView) findViewById(R.id.labelTen);
+            labelGia = (TextView) findViewById(R.id.labelGia);
+            labelMieuTa = (TextView) findViewById(R.id.labelMieuTa);
+
+
+            //textMieuTa = (TextView) findViewById(R.id.text_MieuTa);
+            // textTenMon = (TextView) findViewById(R.id.text_TenMon);
+            // textGia = (TextView) findViewById(R.id.text_Gia);
+
+            //textview = (TextView)findViewById(R.id.textview);
+            //tableView = (TableView)findViewById(R.id.tableView);
+        }
     }
-
-    protected void Init(){
-        callerIntent = getIntent();
-        packageFromCaller = callerIntent.getBundleExtra("Package");
-
-        database = new ArrayList<Menu>();
-        database = MainActivity.database;
-        selectedFoodPosition = packageFromCaller.getIntegerArrayList("SelectedFood");
-
-        itemPosition = new ArrayList<Integer>();
-
-
-        customAdapter = new CustomAdapter();
-        listView = (ListView)findViewById(R.id.listView);
-
-        labelTenMon = (TextView) findViewById(R.id.labelTen);
-        labelGia = (TextView) findViewById(R.id.labelGia);
-        labelMieuTa = (TextView) findViewById(R.id.labelMieuTa);
-        imgView = (ImageView) findViewById(R.id.foodImage);
-
-        textTenMon = (TextView) findViewById(R.id.text_TenMon);
-        textGia = (TextView) findViewById(R.id.text_Gia);
-        textMieuTa = (TextView) findViewById(R.id.text_MieuTa);
-
-        //textview = (TextView)findViewById(R.id.textview);
-        //tableView = (TableView)findViewById(R.id.tableView);
-    }
-}

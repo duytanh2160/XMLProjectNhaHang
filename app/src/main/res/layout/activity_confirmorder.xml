@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="CAC MON DA CHON"
+            android:text="ORDER"
             android:textAllCaps="false"
             android:textSize="30dp"
             android:textStyle="bold"
@@ -25,13 +25,6 @@
             android:visibility="visible" />
 
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/spinner"
-            android:layout_marginBottom="58dp">
-
             <ListView
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
@@ -39,7 +32,5 @@
                 android:layout_marginTop="20dp"
                 android:divider="#263249"
                 android:dividerHeight="7dp"></ListView>
-        </android.support.v4.widget.SwipeRefreshLayout>
-
     </RelativeLayout>
 </LinearLayout>
