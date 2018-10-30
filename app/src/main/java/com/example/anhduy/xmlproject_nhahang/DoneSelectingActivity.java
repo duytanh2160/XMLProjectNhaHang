@@ -1,5 +1,5 @@
 package com.example.anhduy.xmlproject_nhahang;
-
+//Duy:alo test thấy gì ở đây ko
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
