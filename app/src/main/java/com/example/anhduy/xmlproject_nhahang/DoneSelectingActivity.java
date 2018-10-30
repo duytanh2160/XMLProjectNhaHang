@@ -40,6 +40,15 @@ public class DoneSelectingActivity extends Activity {
             }
         }
         textview.setText(count);
+
+
+
+
+
+
+
+
+        //Test chỉnh sữa
     }
 
 
