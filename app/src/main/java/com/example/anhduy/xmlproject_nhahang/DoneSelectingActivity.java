@@ -25,10 +25,16 @@ import de.codecrafters.tableview.TableView;
 
 public class DoneSelectingActivity extends Activity {
 
-
     //đưa các món ăn đã chọn vào 1 listView
     //Hiển thị các món ăn đó
     //Xác nhận order bằng button
+
+    //Lưu vị trí của một món ăn cụ thể NẰM TRONG MẢNG DATABASE (nếu chưa hiểu nhắc tui nói lại cho)
+    private ArrayList<Integer> itemPosition;
+
+    //Loại món ăn hiện tại đang lựa chọn
+    private String TypeChose;
+
 
     TableView tableView;
     TextView labelTenMon;
@@ -65,9 +71,12 @@ public class DoneSelectingActivity extends Activity {
             int count = 0;
 
             //Đưa các món ăn đã chọn lên listView
-
-
-
+            for(int i = 0 ; i < database.size() ; i++){
+                if(database.get(i).Type.compareTo(TypeChose) == 0){
+                    count++;
+                    itemPosition.add(i);
+                }
+            }
             return count;
         }
 
@@ -133,6 +142,9 @@ public class DoneSelectingActivity extends Activity {
         database = new ArrayList<Menu>();
         database = MainActivity.database;
         selectedFoodPosition = packageFromCaller.getIntegerArrayList("SelectedFood");
+
+        itemPosition = new ArrayList<Integer>();
+
 
         customAdapter = new CustomAdapter();
         listView = (ListView)findViewById(R.id.listView);
