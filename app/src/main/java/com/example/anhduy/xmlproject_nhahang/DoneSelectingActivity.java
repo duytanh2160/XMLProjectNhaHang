@@ -55,7 +55,6 @@ public class DoneSelectingActivity extends Activity {
         Init();
 
         LoadListView();
-        //labelTenMon.setText(count);
     }
 
 
@@ -136,16 +135,16 @@ public class DoneSelectingActivity extends Activity {
         selectedFoodPosition = packageFromCaller.getIntegerArrayList("SelectedFood");
 
         customAdapter = new CustomAdapter();
-        listView = findViewById(R.id.listView);
+        listView = (ListView)findViewById(R.id.listView);
 
-        labelTenMon = findViewById(R.id.labelTen);
-        labelGia = findViewById(R.id.labelGia);
-        labelMieuTa = findViewById(R.id.labelMieuTa);
-        imgView = findViewById(R.id.foodImage);
+        labelTenMon = (TextView) findViewById(R.id.labelTen);
+        labelGia = (TextView) findViewById(R.id.labelGia);
+        labelMieuTa = (TextView) findViewById(R.id.labelMieuTa);
+        imgView = (ImageView) findViewById(R.id.foodImage);
 
-        textTenMon = findViewById(R.id.text_TenMon);
-        textGia = findViewById(R.id.text_Gia);
-        textMieuTa = findViewById(R.id.text_MieuTa);
+        textTenMon = (TextView) findViewById(R.id.text_TenMon);
+        textGia = (TextView) findViewById(R.id.text_Gia);
+        textMieuTa = (TextView) findViewById(R.id.text_MieuTa);
 
         //textview = (TextView)findViewById(R.id.textview);
         //tableView = (TableView)findViewById(R.id.tableView);
