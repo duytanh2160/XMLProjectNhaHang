@@ -289,11 +289,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
-
-
-
 //chưa xài, dùng để check nếu đt có đang kết nối mạng hay ko
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
