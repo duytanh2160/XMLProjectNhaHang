@@ -57,8 +57,6 @@ import javax.xml.parsers.ParserConfigurationException;
 public class MainActivity extends AppCompatActivity {
 
     public static String response = "null";
-    public static ArrayList<Menu> database;
-
     //Lưu vị trí của một món ăn cụ thể NẰM TRONG MẢNG DATABASE (nếu chưa hiểu nhắc tui nói lại cho)
     private ArrayList<Integer> itemPosition;
 
@@ -89,10 +87,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Khởi tạo giá trị mặc định
         Init();
-
-
-        //Tiến hành load database
-        LoadDatabase();
 
 
         //Xử lý liên quan đến dropbox
@@ -132,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
     private void Init(){
         listView = (ListView)findViewById(R.id.listView);
         swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
-        database = new ArrayList<Menu>();
         adapter = new CustomAdapter();
         spinner = (Spinner)findViewById(R.id.spinner);
         doneButton = (Button)findViewById(R.id.button_Done);
@@ -183,17 +176,8 @@ public class MainActivity extends AppCompatActivity {
         task.execute(new String[]{""});
     }
 
-
-
     private void LoadListView(){
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                listView.setAdapter(adapter);
-            }
-        }, 2000);   //chờ 2 second cho database load xong rồi mới hiện wiew
-        //response = task.response;
-
+        listView.setAdapter(adapter);
     }
 
 
@@ -263,8 +247,8 @@ public class MainActivity extends AppCompatActivity {
             int count = 0;
 
             //Phân loại món để show lên listview
-            for(int i = 0 ; i < database.size() ; i++){
-                if(database.get(i).Type.compareTo(TypeChose) == 0){
+            for(int i = 0 ; i < SelectingTable.database.size() ; i++){
+                if(SelectingTable.database.get(i).Type.compareTo(TypeChose) == 0){
                     count++;
                     itemPosition.add(i);
                 }
@@ -291,10 +275,10 @@ public class MainActivity extends AppCompatActivity {
                 TextView text_Gia = (TextView) view.findViewById(R.id.text_Gia);
                 CheckBox checkbox = (CheckBox)view.findViewById(R.id.checkBox);
 
-                Picasso.get().load(database.get(itemPosition.get(i)).ImageUrl).into(image);
+                Picasso.get().load(SelectingTable.database.get(itemPosition.get(i)).ImageUrl).into(image);
 
-                text_TenMon.setText(database.get(itemPosition.get(i)).Name);
-                text_Gia.setText("N: " + database.get(itemPosition.get(i)).PriceSmall + " VND\nL: " + database.get(itemPosition.get(i)).PriceBig + " VND");
+                text_TenMon.setText(SelectingTable.database.get(itemPosition.get(i)).Name);
+                text_Gia.setText("N: " + SelectingTable.database.get(itemPosition.get(i)).PriceSmall + " VND\nL: " + SelectingTable.database.get(itemPosition.get(i)).PriceBig + " VND");
 
             if(selectedFoodPosition.contains(itemPosition.get(i))){
                 checkbox.setChecked(true);
@@ -308,58 +292,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public static void ReadData(String xmlString){
-        if(database.isEmpty() == false) {
-            database.clear();
-        }
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            InputSource is = new InputSource(new StringReader(xmlString));
-
-            Document doc = builder.parse(is);
-            Element root = doc.getDocumentElement();
-            NodeList list = root.getElementsByTagName("Menu");
-            for (int i = 0; i < list.getLength(); i++) {
-                Node node = list.item(i);
-                if(node instanceof Element) {
-                    Element Item = (Element) node;
-                    NodeList listChild = Item.getElementsByTagName("STT");
-                    int STT = Integer.parseInt(listChild.item(0).getTextContent());
-
-                    listChild = Item.getElementsByTagName("Name");
-                    String Name = listChild.item(0).getTextContent();
-
-                    listChild = Item.getElementsByTagName("PriceSmall");
-                    int PriceSmall = Integer.parseInt(listChild.item(0).getTextContent());
-
-                    listChild = Item.getElementsByTagName("PriceBig");
-                    int PriceBig = Integer.parseInt(listChild.item(0).getTextContent());
-
-                    listChild = Item.getElementsByTagName("Type");
-                    String Type = listChild.item(0).getTextContent();
-
-                    listChild = Item.getElementsByTagName("ImageUrl");
-                    String ImageUrl = listChild.item(0).getTextContent();
-
-                    Menu food = new Menu();
-                    food.STT = STT;
-                    food.Name = Name;
-                    food.PriceSmall = PriceSmall;
-                    food.PriceBig = PriceBig;
-                    food.Type = Type;
-                    food.ImageUrl = ImageUrl;
-                    database.add(food);
-                }
-            }
-                }catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
 
 //chưa xài, dùng để check nếu đt có đang kết nối mạng hay ko

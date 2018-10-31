@@ -1,5 +1,5 @@
 package com.example.anhduy.xmlproject_nhahang;
-
+//http://codepad.org/sqO2o5nf
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -164,12 +164,14 @@ public class DoneSelectingActivity extends Activity {
         //response = task.response;
     }*/
 
+
+
         protected void Init(){
             callerIntent = getIntent();
             packageFromCaller = callerIntent.getBundleExtra("Package");
 
             database = new ArrayList<Menu>();
-            database = MainActivity.database;
+            database = SelectingTable.database;
             selectedFoodPosition = packageFromCaller.getIntegerArrayList("SelectedFood");
 
             //itemPosition = new ArrayList<Integer>();

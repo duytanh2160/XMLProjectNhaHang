@@ -37,7 +37,7 @@ public class MenuMonAn extends AsyncTask<String,Integer,String> {
         try {
             androidHttpTransport.call(SOAP_ACTION, soapEnvelope);
             test = androidHttpTransport.responseDump;
-            MainActivity.ReadData(test);
+            SelectingTable.ReadData(test);
             return test;
         } catch (Exception exception) {
             return exception.toString();
