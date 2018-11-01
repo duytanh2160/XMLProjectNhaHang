@@ -154,15 +154,17 @@ public class DoneSelectingActivity extends Activity {
             TextView textTenMon = (TextView) view.findViewById(R.id.text_TenMon);
             TextView textGia  = (TextView) view.findViewById(R.id.text_Gia);
 
-                if(i == 0){
+                /*if(i == 0){
                     name += database.get(selectedFoodPosition.get(i)).Name;
                     priceSmall += database.get(selectedFoodPosition.get(i)).PriceSmall;
                     priceBig += database.get(selectedFoodPosition.get(i)).PriceBig;
-                }else {
+                }else {*/
                     name += database.get(selectedFoodPosition.get(i)).Name;
                     priceSmall += database.get(selectedFoodPosition.get(i)).PriceSmall;
                     priceBig +=  database.get(selectedFoodPosition.get(i)).PriceBig;
-                }
+
+
+
             Picasso.get().load(database.get(selectedFoodPosition.get(i)).ImageUrl).into(imgView);
             textTenMon.setText(name);
             textGia.setText("N: " + priceSmall + " VND\nL: " + priceBig + " VND");

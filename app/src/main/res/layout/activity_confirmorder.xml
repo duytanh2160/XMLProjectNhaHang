@@ -30,6 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="20dp"
+                android:layout_below="@+id/labelTitle"
                 android:divider="#263249"
                 android:dividerHeight="7dp"></ListView>
 

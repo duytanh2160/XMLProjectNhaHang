@@ -37,6 +37,7 @@ public class SelectingTable extends Activity {
 
 
     EditText editText_STTBan;
+    Toast notify;
 
 
     @Override
@@ -56,6 +57,7 @@ public class SelectingTable extends Activity {
                 //nếu ô chưa nhập gì, return false để không xủ lý gì cả.
                 //ngược lại khi có chứa chữ số, lưu <SoBan> và chuyển sang MainActivity
                 if(editText_STTBan.getText().toString().compareTo("") == 0){
+                    notify.show();
                     return false;
                 }else{
                     SoBan = Integer.parseInt(editText_STTBan.getText().toString());
@@ -73,6 +75,7 @@ public class SelectingTable extends Activity {
     private void Init() {
         editText_STTBan = (EditText) findViewById(R.id.editText_STTBan);
         database = new ArrayList<Menu>();
+        notify = Toast.makeText(SelectingTable.this,"Xin hãy nhập số bàn !",Toast.LENGTH_SHORT);
     }
 
 

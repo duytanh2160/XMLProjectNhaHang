@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,10 +34,13 @@ import android.widget.Toast;
 import com.google.android.gms.common.util.ArrayUtils;
 import com.squareup.picasso.Picasso;
 
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -44,6 +48,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.io.StringReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -76,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     CustomAdapter adapter;
     Button doneButton;
+    RelativeLayout loadingLayout;
+    TextView loadingText;
 
 
 
@@ -87,6 +94,9 @@ public class MainActivity extends AppCompatActivity {
 
         //Khởi tạo giá trị mặc định
         Init();
+
+        //Countdown 20s, sau khi hết nếu vẫn chưa có database vào dữ liệu -> ko thể kết nối internet
+        checkOnline();
 
 
         //Xử lý liên quan đến dropbox
@@ -121,7 +131,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
     }
+
 
     private void Init(){
         listView = (ListView)findViewById(R.id.listView);
@@ -129,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
         adapter = new CustomAdapter();
         spinner = (Spinner)findViewById(R.id.spinner);
         doneButton = (Button)findViewById(R.id.button_Done);
+        loadingLayout = (RelativeLayout)findViewById(R.id.loadingLayout);
+        loadingText = (TextView)findViewById(R.id.loadingText);
 
         forgetToSelectToast = Toast.makeText(MainActivity.this,"Bạn chưa chọn món nào cả",Toast.LENGTH_SHORT);
 
@@ -220,22 +234,35 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
-                        listView.setAdapter(null);
+                            listView.setAdapter(null);
 
 
-                        itemPosition.clear();
-                        TypeChose = spinner.getSelectedItem().toString();
+                            itemPosition.clear();
+                            TypeChose = spinner.getSelectedItem().toString();
 
 
-                        LoadDatabase();
-                        listView.setAdapter(adapter);
+                            LoadDatabase();
+                            listView.setAdapter(adapter);
 
 
-                        Toast.makeText(MainActivity.this,"Database Updated!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Đã cập nhật database!", Toast.LENGTH_SHORT).show();
                     }
                 },1000);
             }
         });
+    }
+
+
+    private void checkOnline(){
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                if(adapter.getCount() == 0){
+                    Toast.makeText(MainActivity.this,"Kết nối thất bại",Toast.LENGTH_SHORT);
+                    loadingText.setText("VUI LÒNG KIỂM TRA LẠI KẾT NỐI");
+                }
+            }
+        }, 20000);
     }
 
 
@@ -252,6 +279,10 @@ public class MainActivity extends AppCompatActivity {
                     count++;
                     itemPosition.add(i);
                 }
+            }
+
+            if(count > 0){
+                loadingLayout.setVisibility(View.GONE);
             }
 
             return count;
@@ -289,12 +320,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//chưa xài, dùng để check nếu đt có đang kết nối mạng hay ko
+//chưa xài, dùng để check nếu đt có đang kết nối mạng hay ko. EDIT: KO XÀI DC
     private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        if (isNetworkAvailable()) {
+            try {
+                HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.google.com").openConnection());
+                urlc.setRequestProperty("User-Agent", "Test");
+                urlc.setRequestProperty("Connection", "close");
+                urlc.setConnectTimeout(1500);
+                urlc.connect();
+                return (urlc.getResponseCode() == 200);
+            } catch (IOException e) {
+            }
+        } else {
+        }
+        return false;
     }
-
 }

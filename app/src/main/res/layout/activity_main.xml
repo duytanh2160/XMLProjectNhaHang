@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#263346"
-        tools:layout_editor_absoluteX="38dp"
-        tools:layout_editor_absoluteY="16dp">
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <TextView
             android:id="@+id/labelTitle"
@@ -20,9 +20,9 @@
             android:layout_centerHorizontal="true"
             android:text="MENU MÓN ĂN"
             android:textAllCaps="false"
+            android:textColor="#FFFF"
             android:textSize="30dp"
             android:textStyle="bold"
-            android:textColor="#FFFF"
 
             android:visibility="visible" />
 
@@ -31,8 +31,8 @@
             android:layout_width="265dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_below="@+id/labelTitle"
             android:layout_alignParentRight="true"
+            android:layout_below="@+id/labelTitle"
             android:layout_toRightOf="@+id/textView"
 
             />
@@ -42,10 +42,35 @@
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:layout_above="@+id/swipeRefreshLayout"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:text="Loại món:"
-            android:textColor="#FFFFFF"
-            android:layout_alignParentLeft="true" />
+            android:textColor="#FFFFFF" />
+
+        <RelativeLayout
+            android:id="@+id/loadingLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/gifImageView"
+                android:layout_width="match_parent"
+                android:layout_height="87dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/loader" />
+
+            <TextView
+                android:id="@+id/loadingText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/gifImageView"
+                android:text="ĐANG TẢI"
+                android:textAlignment="center"
+                android:textColor="#FFFF"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
 
 
         <android.support.v4.widget.SwipeRefreshLayout
@@ -60,7 +85,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="20dp"
-                android:divider="#263249"
                 android:dividerHeight="7dp"></ListView>
         </android.support.v4.widget.SwipeRefreshLayout>
 
