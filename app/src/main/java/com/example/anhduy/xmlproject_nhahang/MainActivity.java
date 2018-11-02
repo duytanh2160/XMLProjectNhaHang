@@ -165,14 +165,9 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 //Chỉ update listview khi chọn item khác item đã chọn trước đó
                 if(spinner.getSelectedItem().toString().compareTo(TypeChose) != 0) {
-                    listView.setAdapter(null);
-
-
                     itemPosition.clear();
                     TypeChose = spinner.getSelectedItem().toString();
-
-
-                    listView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 }
             }
 
@@ -234,17 +229,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
-                            listView.setAdapter(null);
-
-
                             itemPosition.clear();
+
                             TypeChose = spinner.getSelectedItem().toString();
 
-
                             LoadDatabase();
-                            listView.setAdapter(adapter);
 
-
+                            adapter.notifyDataSetChanged();
                             Toast.makeText(MainActivity.this, "Đã cập nhật database!", Toast.LENGTH_SHORT).show();
                     }
                 },1000);
@@ -309,7 +300,11 @@ public class MainActivity extends AppCompatActivity {
                 Picasso.get().load(SelectingTable.database.get(itemPosition.get(i)).ImageUrl).into(image);
 
                 text_TenMon.setText(SelectingTable.database.get(itemPosition.get(i)).Name);
-                text_Gia.setText("N: " + SelectingTable.database.get(itemPosition.get(i)).PriceSmall + " VND\nL: " + SelectingTable.database.get(itemPosition.get(i)).PriceBig + " VND");
+
+
+                String priceSmall = Integer.toString(SelectingTable.database.get(itemPosition.get(i)).PriceSmall);
+                String priceBig = Integer.toString(SelectingTable.database.get(itemPosition.get(i)).PriceBig);
+                text_Gia.setText("N: " + AddADotForPrice(priceSmall) + " VND\nL: " + AddADotForPrice(priceBig)+ " VND");
 
             if(selectedFoodPosition.contains(itemPosition.get(i))){
                 checkbox.setChecked(true);
@@ -318,6 +313,24 @@ public class MainActivity extends AppCompatActivity {
             }
             return view;
         }
+    }
+
+    private String AddADotForPrice(String price){
+        char[] temp = price.toCharArray();
+        String result = "";
+        int a = 1;
+        for(int j = temp.length -1  ; j >= 0 ; j--) {
+            if (a <= 3) {
+                result += temp[j];
+                a++;
+            } else {
+                result += ".";
+                result += temp[j];
+                a=2;
+            }
+        }
+        result = new StringBuilder(new String(result)).reverse().toString();
+        return result;
     }
 
 //chưa xài, dùng để check nếu đt có đang kết nối mạng hay ko. EDIT: KO XÀI DC
