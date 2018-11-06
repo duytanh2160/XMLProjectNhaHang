@@ -149,10 +149,14 @@ public class DoneSelectingActivity extends Activity {
             String name = "";
             String priceSmall = "";
             String priceBig = "";
+            //String foodNum = textFoodNumber.getText().toString();
+            int foodNumber = 1;
+
 
             ImageView imgView = (ImageView) view.findViewById(R.id.foodImage);
             TextView textTenMon = (TextView) view.findViewById(R.id.text_TenMon);
             TextView textGia  = (TextView) view.findViewById(R.id.text_Gia);
+            TextView textFoodNumber = (TextView) view.findViewById(R.id.textFoodNumber);
 
                 /*if(i == 0){
                     name += database.get(selectedFoodPosition.get(i)).Name;
@@ -163,11 +167,10 @@ public class DoneSelectingActivity extends Activity {
                     priceSmall += database.get(selectedFoodPosition.get(i)).PriceSmall;
                     priceBig +=  database.get(selectedFoodPosition.get(i)).PriceBig;
 
-
-
             Picasso.get().load(database.get(selectedFoodPosition.get(i)).ImageUrl).into(imgView);
             textTenMon.setText(name);
             textGia.setText("N: " + priceSmall + " VND\nL: " + priceBig + " VND");
+            textFoodNumber.setText(Integer.toString(foodNumber));
             return view;
         }
     }
@@ -175,12 +178,16 @@ public class DoneSelectingActivity extends Activity {
     //Xác nhận khi chỉnh sửa các món trong Order
     public void orderConfirmFunction(View view){
 
+        Toast.makeText(this,"Xác nhận đặt món !", Toast.LENGTH_LONG).show();
     }
 
     //Thêm số lượng món ăn đã chọn
+
+    //cho giá trị món được chọn = 1
+    //Khi bấm button
+    //text view tăng/giảm 1 đơn vị
     public void addFoodNumber (View view){
-        //Khi bấm button
-        //text view tăng lên 1 đơn vị
+
         Log.i("addFoodNumber", "nút xài được");
     }
 
@@ -223,8 +230,8 @@ public class DoneSelectingActivity extends Activity {
             addFoodButton = (ImageButton) findViewById(R.id.buttonAdd);
             removeFoodButton = (ImageButton) findViewById(R.id.buttonRemove);
 
-            int foodNumber = 0;
-            textFoodNumber = (TextView) findViewById(R.id.textFoodNumber);
+         //   int foodNumber = 1;
+         //   textFoodNumber = (TextView) findViewById(R.id.textFoodNumber);
 
          //   textMieuTa = (TextView) findViewById(R.id.text_MieuTa);
          //   textTenMon = (TextView) findViewById(R.id.text_TenMon);
