@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerVertical="true"
     android:background="#7E8AA2"
     android:clickable="false"
-    android:descendantFocusability="blocksDescendants">
+>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="134dp"
+        android:layout_height="146dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true">
 
         <ImageView
             android:id="@+id/foodImage"
             android:layout_width="160dp"
-            android:layout_height="130dp"
-            android:layout_alignParentStart="true"
+            android:layout_height="140dp"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="2dp"
             android:layout_marginLeft="5dp"
+            android:layout_marginStart="2dp"
             android:layout_marginTop="2dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop" />
@@ -59,43 +58,76 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/labelFoodSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_Gia"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/foodImage"
+            android:text="Chọn phần:"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spinnerFoodSize"
+            android:layout_width="108dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_Gia"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/labelFoodSize" />
+
+        <TextView
+            android:id="@+id/labelFoodNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinnerFoodSize"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/foodImage"
+            android:text="Số lượng:"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editText_SoLuong"
+            android:layout_width="46dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinnerFoodSize"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/labelFoodNumber"
+            android:ems="10"
+            android:inputType="number"
+            android:text="1"
+            android:textAlignment="center"
+            android:textColor="#FFFF"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/labelTotalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editText_SoLuong"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/foodImage"
+            android:text="Tổng tiền:"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/textTotalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="21dp"
+            android:layout_below="@+id/editText_SoLuong"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/labelTotalPrice"
+            android:text="100.000" />
+
+        <TextView
             android:id="@+id/text_Gia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_TenMon"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/labelTen"
-            android:hint="vnd"
+            android:text="vnd"
 
             />
-
-        <ImageButton
-            android:id="@+id/buttonAdd"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignLeft="@+id/labelTen"
-            android:layout_centerVertical="true"
-            android:onClick="addFoodNumber"
-            app:srcCompat="@drawable/ic_add_black_24dp" />
-
-        <ImageButton
-            android:id="@+id/buttonRemove"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignLeft="@+id/labelTen"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="1dp"
-            android:onClick="removeFoodNumber"
-            app:srcCompat="@drawable/ic_remove_black_24dp" />
-
-        <TextView
-            android:id="@+id/textFoodNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="37dp"
-            android:layout_toRightOf="@+id/buttonAdd"
-            android:hint="Food number..." />
-
     </RelativeLayout>
 </RelativeLayout>

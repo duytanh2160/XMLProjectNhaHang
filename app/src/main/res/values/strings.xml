@@ -6,4 +6,8 @@
         <item>ĐỒ UỐNG</item>
         <item>TRÁNG MIỆNG</item>
     </string-array>
+    <string-array name="FoodSize">
+        <item>Lớn</item>
+        <item>Nhỏ</item>
+    </string-array>
 </resources>
