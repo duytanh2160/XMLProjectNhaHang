@@ -47,9 +47,7 @@ public class DoneSelectingActivity extends Activity {
     //Loại món ăn hiện tại đang lựa chọn
     //private String TypeChose;
 
-
     //TableView tableView;
-
 
     TextView textView;
 
@@ -63,11 +61,9 @@ public class DoneSelectingActivity extends Activity {
     Intent callerIntent;
     Bundle packageFromCaller;
 
-
 //    String name = "";
 //    String priceSmall = "";
 //    String priceBig = "";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +74,6 @@ public class DoneSelectingActivity extends Activity {
 
         listView.setAdapter(customAdapter);
         LoadListView();
-
 
         //Test
    /*   String count = "";
@@ -238,23 +233,10 @@ public class DoneSelectingActivity extends Activity {
         }
     }
 
-    //Xác nhận khi chỉnh sửa các món trong Order
+    //Xác nhận khi chỉnh sửa các món trong Order -> cho hóa đơn
     public void orderConfirmFunction(View view){
-
-    }
-
-    //Thêm số lượng món ăn đã chọn
-    public void addFoodNumber (View view){
-        //Khi bấm button
-        //text view tăng lên 1 đơn vị
-        Log.i("addFoodNumber", "nút xài được");
-    }
-
-    //Giảm số lượng món ăn đã chọn
-    public void removeFoodNumber (View view){
-        //Khi bấm button
-        //text view giảm 1 đơn vị
-        Log.i("removeFoodNumber", "nút xài được");
+        Intent intent = new Intent(DoneSelectingActivity.this, Receipt.class);
+         startActivity(intent);
     }
 
     private void LoadListView(){

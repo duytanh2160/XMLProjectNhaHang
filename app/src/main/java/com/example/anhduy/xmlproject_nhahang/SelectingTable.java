@@ -91,9 +91,9 @@ public class SelectingTable extends Activity {
         }
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            InputSource is = new InputSource(new StringReader(xmlString));
 
+            InputSource is = new InputSource(new StringReader(xmlString));
+            DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(is);
             Element root = doc.getDocumentElement();
             NodeList list = root.getElementsByTagName("Menu");
