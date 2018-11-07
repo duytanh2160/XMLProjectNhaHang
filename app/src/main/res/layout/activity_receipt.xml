@@ -80,7 +80,7 @@
         android:hint="giá từng món" />
 
     <TextView
-        android:id="@+id/textTotalPrice"
+        android:id="@+id/textTotalReceiptPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

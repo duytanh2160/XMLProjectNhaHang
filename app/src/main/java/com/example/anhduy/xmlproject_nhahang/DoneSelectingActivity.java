@@ -234,9 +234,12 @@ public class DoneSelectingActivity extends Activity {
     }
 
     //Xác nhận khi chỉnh sửa các món trong Order -> cho hóa đơn
+    //Khi click button
+    //Lưu các lựa chọn được lưu ở màn hình
     public void orderConfirmFunction(View view){
         Intent intent = new Intent(DoneSelectingActivity.this, Receipt.class);
-         startActivity(intent);
+
+        startActivity(intent);
     }
 
     private void LoadListView(){
@@ -251,7 +254,7 @@ public class DoneSelectingActivity extends Activity {
 
 
 
-        protected void Init(){
+    protected void Init(){
             callerIntent = getIntent();
             packageFromCaller = callerIntent.getBundleExtra("Package");
 
@@ -293,4 +296,4 @@ public class DoneSelectingActivity extends Activity {
         result = new StringBuilder(new String(result)).reverse().toString();
         return result;
     }
-    }
+}
