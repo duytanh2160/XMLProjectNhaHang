@@ -32,19 +32,46 @@
                 android:layout_marginTop="20dp"
                 android:layout_below="@+id/labelTitle"
                 android:divider="#263249"
-                android:dividerHeight="7dp"></ListView>
+                android:dividerHeight="7dp"
+                android:layout_above="@+id/buttonOrderConfirm"></ListView>
 
 
         <at.markushi.ui.CircleButton
             android:id="@+id/buttonOrderConfirm"
             android:layout_width="64dip"
             android:layout_height="64dip"
+            android:layout_marginTop="5dp"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
+            android:layout_toEndOf="@+id/labelTitle"
             android:onClick="orderConfirmFunction"
             android:src="@drawable/ic_action_tick"
             app:cb_color="#99CC00"
             app:cb_pressedRingWidth="8dip" />
+
+        <TextView
+            android:id="@+id/labelTotalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/listView"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
+            android:text="Tổng:"
+            android:textColor="#FFFF"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_TotalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/listView"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/labelTotalPrice"
+            android:text="0"
+            android:textColor="#FFFF"
+            android:textSize="30dp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 </LinearLayout>
