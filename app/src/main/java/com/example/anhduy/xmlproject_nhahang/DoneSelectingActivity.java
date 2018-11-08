@@ -61,6 +61,7 @@ public class DoneSelectingActivity extends Activity {
 
         LoadListView();
 
+
     }
 
     private void Init(){
@@ -94,7 +95,6 @@ public class DoneSelectingActivity extends Activity {
     public class CustomAdapter extends BaseAdapter{
         @Override
         public int getCount() {
-
             return selectedFoodPosition.size();
         }
 
@@ -171,16 +171,9 @@ public class DoneSelectingActivity extends Activity {
                         listSoLuong.set(itemPosition,soLuong);
                         if (soLuong > 0) {
                             int price = GetPrice(spinner,itemPosition);
-                            text_ItemTotalPrice.setText(AddADotForPrice("" + soLuong * price));
-                            if(old != soLuong * price && old != 0) {
-                                TotalPrice -= old;
-                                TotalPrice += soLuong * price;
-                                listTotalPrice.set(itemPosition,soLuong * price);
-                            }else if(old == 0){
-                                TotalPrice += soLuong * price;
-                                listTotalPrice.set(itemPosition,soLuong * price);
-                            }
-                            text_TotalPrice.setText(AddADotForPrice("" + TotalPrice));
+                            listTotalPrice.set(itemPosition,soLuong * price);
+                            text_ItemTotalPrice.setText(AddADotForPrice("" + listTotalPrice.get(itemPosition)));
+                            text_TotalPrice.setText(AddADotForPrice("" +GetTotalPrice()));
                         } else {
                             text_ItemTotalPrice.setText("0");
                         }
@@ -204,21 +197,12 @@ public class DoneSelectingActivity extends Activity {
                         editText_SoLuong.setText("1");
                     }
 
-
                     int soLuong = Integer.parseInt(editText_SoLuong.getText().toString());
                     int price = GetPrice(spinner,itemPosition);
                     listSoLuong.set(itemPosition,soLuong);
-
-                    text_ItemTotalPrice.setText(AddADotForPrice("" + soLuong * price));
-                    if(old != soLuong * price && old != 0) {
-                        TotalPrice -= old;
-                        TotalPrice += soLuong * price;
-                        listTotalPrice.set(itemPosition,soLuong * price);
-                    }else if(old == 0){
-                        TotalPrice += soLuong * price;
-                        listTotalPrice.set(itemPosition,soLuong * price);
-                    }
-                    text_TotalPrice.setText(AddADotForPrice("" + TotalPrice));
+                    listTotalPrice.set(itemPosition,soLuong * price);
+                    text_ItemTotalPrice.setText(AddADotForPrice("" + listTotalPrice.get(itemPosition)));
+                    text_TotalPrice.setText(AddADotForPrice("" +GetTotalPrice()));
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView) {
@@ -227,6 +211,14 @@ public class DoneSelectingActivity extends Activity {
             });
             return view;
         }
+    }
+
+    private int GetTotalPrice(){
+        int result = 0;
+        for (int i : listTotalPrice){
+            result += i;
+        }
+        return result;
     }
 
 
