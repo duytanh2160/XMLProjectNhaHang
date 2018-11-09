@@ -231,15 +231,18 @@ public class DoneSelectingActivity extends Activity {
         }
     }
 
-    //Xác nhận khi chỉnh sửa các món trong Order
+    //Xác nhận khi chỉnh sửa các món trong Order -> cho hóa đơn
+    //Khi click button
+    //Lưu các lựa chọn được lưu ở màn hình
     public void orderConfirmFunction(View view){
+        Intent intent = new Intent(DoneSelectingActivity.this, Receipt.class);
 
+        startActivity(intent);
     }
 
 
     private void LoadListView(){
         listView.setAdapter(customAdapter);
-        UIUtils.setListViewHeightBasedOnItems(listView);
     }
 
 

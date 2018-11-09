@@ -25,7 +25,7 @@ public class Receipt extends AppCompatActivity {
     protected void Init(){
         textReceiptFoodName = (TextView) findViewById(R.id.textReceiptFoodName);
         textReceiptFoodPrice = (TextView) findViewById(R.id.textReceiptFoodPrice);
-        textTotalReceiptPrice = (TextView) findViewById(R.id.textTotalPrice);
+        textTotalReceiptPrice = (TextView) findViewById(R.id.textTotalReceiptPrice);
     }
 }
 
