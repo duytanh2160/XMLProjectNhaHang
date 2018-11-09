@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#263346">
+
+    <TextView
+        android:id="@+id/labelReceiptTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="29dp"
+        android:text="HÓA ĐƠN"
+        android:textColor="#FFFF"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/labelFoodReceiptName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="72dp"
+        android:textStyle="bold"
+        android:textColor="#FFFF"
+        android:text="Tên món:" />
+
+    <TextView
+        android:id="@+id/labelFoodReceiptPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/labelFoodReceiptName"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="105dp"
+        android:layout_marginRight="105dp"
+        android:layout_marginBottom="1dp"
+        android:text="Giá"
+        android:textColor="#FFFF"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/labelReceiptTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/labelFoodReceiptPrice"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="127dp"
+        android:text="Tổng"
+        android:textColor="#FFFF"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/labelGoodbye"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="65dp"
+        android:text="XIN CẢM ƠN, HẸN KHÔNG GẶP LẠI HIHI"
+        android:textColor="#FFFF"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textReceiptFoodName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/labelFoodReceiptName"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="108dp"
+        android:hint="tên từng món" />
+
+    <TextView
+        android:id="@+id/textReceiptFoodPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/labelFoodReceiptPrice"
+        android:layout_alignBottom="@+id/textReceiptFoodName"
+        android:hint="giá từng món" />
+
+    <TextView
+        android:id="@+id/textTotalReceiptPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="11dp"
+        android:layout_marginBottom="127dp"
+        android:hint="giá hóa đơn" />
+
+</RelativeLayout>
