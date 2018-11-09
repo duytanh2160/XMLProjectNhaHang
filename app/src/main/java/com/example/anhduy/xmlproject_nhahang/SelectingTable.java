@@ -1,7 +1,9 @@
 package com.example.anhduy.xmlproject_nhahang;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
@@ -46,6 +48,7 @@ public class SelectingTable extends Activity {
         setContentView(R.layout.activity_tableseleting);
 
         Init();
+        LoadTableNumber();
 
 
         LoadDatabase();
@@ -62,11 +65,18 @@ public class SelectingTable extends Activity {
                 }else{
                     SoBan = Integer.parseInt(editText_STTBan.getText().toString());
                     Intent intent = new Intent(SelectingTable.this, MainActivity.class);
+                    SaveTableNumber();
                     startActivity(intent);
                     return true;
                 }
             }
         });
+
+
+
+
+
+
     }
 
 
@@ -76,6 +86,23 @@ public class SelectingTable extends Activity {
         editText_STTBan = (EditText) findViewById(R.id.editText_STTBan);
         database = new ArrayList<Menu>();
         notify = Toast.makeText(SelectingTable.this,"Xin hãy nhập số bàn !",Toast.LENGTH_SHORT);
+    }
+
+    void LoadTableNumber(){
+        SharedPreferences shaPre = getSharedPreferences("Storage", Context.MODE_PRIVATE);
+        if((Integer)shaPre.getInt("TableNumber",0) != null) {
+            editText_STTBan.setText("" + shaPre.getInt("TableNumber",0));
+        }
+    }
+    void SaveTableNumber(){
+        SharedPreferences shaPre = getSharedPreferences("Storage", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = shaPre.edit();
+        int sttBan = Integer.parseInt(editText_STTBan.getText().toString());
+        int sttBanFromStorage =  shaPre.getInt("TableNumber",0);
+        if( sttBan != sttBanFromStorage){
+            editor.putInt("TableNumber",Integer.parseInt(editText_STTBan.getText().toString()));
+            editor.apply();
+        }
     }
 
 
