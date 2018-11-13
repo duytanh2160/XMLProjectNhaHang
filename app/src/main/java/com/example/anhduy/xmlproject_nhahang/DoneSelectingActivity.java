@@ -147,7 +147,7 @@ public class DoneSelectingActivity extends Activity {
             Picasso.get().load(database.get(selectedFoodPosition.get(i)).ImageUrl).into(imgView);
             textTenMon.setText(name);
             textGia.setText("N: " + priceSmall + " VND\nL: " + priceBig + " VND");
-            text_ItemTotalPrice.setText(AddADotForPrice("" +priceBig));
+            text_ItemTotalPrice.setText(AddADotForPrice("" + priceBig));
 
 
 
@@ -188,6 +188,8 @@ public class DoneSelectingActivity extends Activity {
                 }
             });
             // + Xử lý spinner chọn food size
+            //Nếu chọn món -> số lượng mặc định = 1
+
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
