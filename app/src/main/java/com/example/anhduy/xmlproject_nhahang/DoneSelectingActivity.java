@@ -73,15 +73,17 @@ public class DoneSelectingActivity extends Activity {
         database = SelectingTable.database;
         selectedFoodPosition = packageFromCaller.getIntegerArrayList("SelectedFood");
 
+        //Khởi tạo, gán cho số lượng món đã được chọn = 1
         listSoLuong = new ArrayList<Integer>();
         for (int i = 0; i < selectedFoodPosition.size(); i++) {
             listSoLuong.add(1);
         }// Khởi tạo giá trị.
+
+        //Gán tổng giá các món = 0
         listTotalPrice = new ArrayList<Integer>();
         for (int i = 0; i < selectedFoodPosition.size(); i++) {
             listTotalPrice.add(0);
         }
-
 
         customAdapter = new CustomAdapter();
 
@@ -133,13 +135,11 @@ public class DoneSelectingActivity extends Activity {
             final EditText editText_SoLuong = (EditText)view.findViewById(R.id.editText_SoLuong);
 
 
-
             //Gán giá trị khi mới load activity
             editText_SoLuong.setText(listSoLuong.get(i).toString());
             String name = "";
             String priceSmall = "";
             String priceBig = "";
-
 
             name += database.get(selectedFoodPosition.get(i)).Name;
             priceSmall += database.get(selectedFoodPosition.get(i)).PriceSmall;
@@ -150,11 +150,9 @@ public class DoneSelectingActivity extends Activity {
             text_ItemTotalPrice.setText(AddADotForPrice("" + priceBig));
 
 
-
             //XỬ LÝ KHI CÓ THAY ĐỔI GIÁ TRỊ:
 
-
-            // + Xử lý editText Số lượng
+            // + Xử lý editText Số lượng món ăn nhập vào
             editText_SoLuong.addTextChangedListener(new TextWatcher() {
                 int old;
                 @Override
@@ -173,7 +171,7 @@ public class DoneSelectingActivity extends Activity {
                             int price = GetPrice(spinner,itemPosition);
                             listTotalPrice.set(itemPosition,soLuong * price);
                             text_ItemTotalPrice.setText(AddADotForPrice("" + listTotalPrice.get(itemPosition)));
-                            text_TotalPrice.setText(AddADotForPrice("" +GetTotalPrice()));
+                            text_TotalPrice.setText(AddADotForPrice("" + GetTotalPrice()));
                         } else {
                             text_ItemTotalPrice.setText("0");
                         }
@@ -204,7 +202,7 @@ public class DoneSelectingActivity extends Activity {
                     listSoLuong.set(itemPosition,soLuong);
                     listTotalPrice.set(itemPosition,soLuong * price);
                     text_ItemTotalPrice.setText(AddADotForPrice("" + listTotalPrice.get(itemPosition)));
-                    text_TotalPrice.setText(AddADotForPrice("" +GetTotalPrice()));
+                    text_TotalPrice.setText(AddADotForPrice("" + GetTotalPrice()));
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView) {

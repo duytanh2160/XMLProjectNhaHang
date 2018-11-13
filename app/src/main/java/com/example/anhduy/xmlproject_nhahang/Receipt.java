@@ -6,11 +6,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class Receipt extends AppCompatActivity {
 
-    TextView textReceiptFoodName;
+    TextView textReceiptFoodsName;
     TextView textReceiptFoodPrice;
     TextView textTotalReceiptPrice;
+
+    Intent callerIntent;
+    Bundle packageFromCaller;
+    ArrayList<Menu> database;
+    ArrayList<Integer> selectedFoodPosition;
+    ArrayList<Integer> listSoLuong;             //Lưu số lượng của các món đã chọn.
+    ArrayList<Integer> listTotalPrice;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +30,9 @@ public class Receipt extends AppCompatActivity {
         Init();
 
         //Logic:
-        //Show tên món x số lượng = giá lấy từ màn hình DoneSelectingActivity
-        //Show tổng hóa đơn
+        //Show tên các món lấy từ màn hình DoneSelectingActivity
+        //Show giá từng món lấy từ màn hình DoneSelectingActivity
+        //Show tổng hóa đơn = soLuong * price
     }
 
     public void backButton(View view){
@@ -32,9 +43,19 @@ public class Receipt extends AppCompatActivity {
     }
 
     protected void Init(){
-        textReceiptFoodName = (TextView) findViewById(R.id.textReceiptFoodName);
+        textReceiptFoodsName = (TextView) findViewById(R.id.textReceiptFoodName);
         textReceiptFoodPrice = (TextView) findViewById(R.id.textReceiptFoodPrice);
         textTotalReceiptPrice = (TextView) findViewById(R.id.textTotalReceiptPrice);
+
+        callerIntent = getIntent();
+        packageFromCaller = callerIntent.getBundleExtra("Package");
+
+
+        database = new ArrayList<Menu>();
+        database = SelectingTable.database;
+        selectedFoodPosition = packageFromCaller.getIntegerArrayList("SelectedFood");
+
+
+        }
     }
-}
 
