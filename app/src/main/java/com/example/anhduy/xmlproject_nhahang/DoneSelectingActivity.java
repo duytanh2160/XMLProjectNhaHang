@@ -47,6 +47,7 @@ public class DoneSelectingActivity extends Activity {
     ArrayList<Menu> database;
     ArrayList<Integer> selectedFoodPosition;
     ArrayList<Integer> listSoLuong;             //Lưu số lượng của các món đã chọn.
+    ArrayList<Integer> listFoodSizeIndex;
     ArrayList<Integer> listTotalPrice;
     int TotalPrice;
 
@@ -79,10 +80,17 @@ public class DoneSelectingActivity extends Activity {
             listSoLuong.add(1);
         }// Khởi tạo giá trị.
 
+
+        listFoodSizeIndex = new ArrayList<Integer>();
+        for (int i = 0; i < selectedFoodPosition.size(); i++) {
+            listFoodSizeIndex.add(0);
+        }
+
+
         //Gán tổng giá các món = 0
         listTotalPrice = new ArrayList<Integer>();
         for (int i = 0; i < selectedFoodPosition.size(); i++) {
-            listTotalPrice.add(0);
+            listTotalPrice.add(database.get(selectedFoodPosition.get(i)).PriceBig);
         }
 
         customAdapter = new CustomAdapter();
@@ -137,13 +145,15 @@ public class DoneSelectingActivity extends Activity {
 
             //Gán giá trị khi mới load activity
             editText_SoLuong.setText(listSoLuong.get(i).toString());
+            spinner.setSelection(listFoodSizeIndex.get(i));
+
             String name = "";
             String priceSmall = "";
             String priceBig = "";
 
             name += database.get(selectedFoodPosition.get(i)).Name;
-            priceSmall += database.get(selectedFoodPosition.get(i)).PriceSmall;
-            priceBig +=  database.get(selectedFoodPosition.get(i)).PriceBig;
+            priceSmall += AddADotForPrice(Integer.toString(database.get(selectedFoodPosition.get(i)).PriceSmall));
+            priceBig +=  AddADotForPrice(Integer.toString(database.get(selectedFoodPosition.get(i)).PriceBig));
             Picasso.get().load(database.get(selectedFoodPosition.get(i)).ImageUrl).into(imgView);
             textTenMon.setText(name);
             textGia.setText("N: " + priceSmall + " VND\nL: " + priceBig + " VND");
@@ -203,6 +213,8 @@ public class DoneSelectingActivity extends Activity {
                     listTotalPrice.set(itemPosition,soLuong * price);
                     text_ItemTotalPrice.setText(AddADotForPrice("" + listTotalPrice.get(itemPosition)));
                     text_TotalPrice.setText(AddADotForPrice("" + GetTotalPrice()));
+
+                    listFoodSizeIndex.set(itemPosition,spinner.getSelectedItemPosition());
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView) {
