@@ -25,14 +25,11 @@ public class Receipt extends AppCompatActivity {
 
         Init();
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Receipt.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
+    }
+    
+    public void backButton(View view){
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 
 

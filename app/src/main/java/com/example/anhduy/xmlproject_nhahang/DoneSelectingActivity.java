@@ -247,7 +247,7 @@ public class DoneSelectingActivity extends Activity {
     //Khi click button
     //Lưu các lựa chọn được lưu ở màn hình
     public void orderConfirmFunction(View view){
-        Intent intent = new Intent(DoneSelectingActivity.this, Receipt.class);
+        Intent intent = new Intent(getApplicationContext(), Receipt.class);
 
         startActivity(intent);
     }
