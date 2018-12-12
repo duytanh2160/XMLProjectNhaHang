@@ -3,6 +3,7 @@ package com.example.anhduy.xmlproject_nhahang;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -103,7 +104,14 @@ public class AddOrdersViaSQL extends AsyncTask<String,Integer,String> {
     protected void onPostExecute(String result) {
         if(result.compareTo("Success")==0) {
             loadingLayout.setVisibility(View.GONE);
-            activity.startActivity(new Intent(activity, Receipt.class));
+
+            Bundle bundle = new Bundle();
+            bundle.putIntegerArrayList("SelectedFood",order.selectedFoodPosition);
+            bundle.putIntegerArrayList("TotalPrice",order.listTotalPrice);
+
+            Intent intent = new Intent(activity, Receipt.class);
+            intent.putExtra("Package",bundle);
+            activity.startActivity(intent);
         }else{
             loadingText.setText("XỬ LÝ GẶP VẤN ĐỀ");
         }

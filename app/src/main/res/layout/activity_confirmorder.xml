@@ -38,7 +38,8 @@
             android:id="@+id/loadingLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true">
 
             <pl.droidsonroids.gif.GifImageView
                 android:id="@+id/gifImageView"
