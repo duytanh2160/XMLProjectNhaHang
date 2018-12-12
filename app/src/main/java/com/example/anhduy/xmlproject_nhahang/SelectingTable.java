@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,9 +50,6 @@ public class SelectingTable extends Activity {
 
         Init();
         LoadTableNumber();
-
-
-        LoadDatabase();
 
         //Xử lý khi nhập vào ô trống
         editText_STTBan.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -103,12 +101,6 @@ public class SelectingTable extends Activity {
             editor.putInt("TableNumber",Integer.parseInt(editText_STTBan.getText().toString()));
             editor.apply();
         }
-    }
-
-
-    private void LoadDatabase(){
-        MenuMonAn task = new MenuMonAn();
-        task.execute(new String[]{""});
     }
 
 

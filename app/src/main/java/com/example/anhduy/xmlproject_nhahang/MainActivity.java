@@ -62,7 +62,7 @@ import javax.xml.parsers.ParserConfigurationException;
 public class MainActivity extends AppCompatActivity {
 
     public static String response = "null";
-    //Lưu vị trí của một món ăn cụ thể NẰM TRONG MẢNG DATABASE (nếu chưa hiểu nhắc tui nói lại cho)
+    //Lưu vị trí của một món ăn cụ thể NẰM TRONG MẢNG DATABASE
     private ArrayList<Integer> itemPosition;
 
     //Lưu vị trí các món ăn đã được chọn
@@ -96,11 +96,15 @@ public class MainActivity extends AppCompatActivity {
         Init();
 
         //Countdown 20s, sau khi hết nếu vẫn chưa có database vào dữ liệu -> ko thể kết nối internet
-        checkOnline();
+        //checkOnline();
 
 
         //Xử lý liên quan đến dropbox
         SetUpDropDownBox();
+
+
+        //Load Database
+        LoadDatabase(adapter,loadingLayout,loadingText);
 
 
         //Load list view lần đầu
@@ -180,8 +184,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void LoadDatabase(){
-        MenuMonAn task = new MenuMonAn();
+    private void LoadDatabase(CustomAdapter adapter,RelativeLayout loadingLayout,TextView loadingText){
+        MenuMonAn task = new MenuMonAn(adapter,loadingLayout,loadingText);
         task.execute(new String[]{""});
     }
 
@@ -233,9 +237,9 @@ public class MainActivity extends AppCompatActivity {
 
                             TypeChose = spinner.getSelectedItem().toString();
 
-                            LoadDatabase();
-
-                            adapter.notifyDataSetChanged();
+                            loadingText.setText("TIẾN HÀNH TẢI LẠI..");
+                            LoadDatabase(adapter,loadingLayout,loadingText);
+                            //adapter.notifyDataSetChanged();
                             Toast.makeText(MainActivity.this, "Đã cập nhật database!", Toast.LENGTH_SHORT).show();
                     }
                 },1000);

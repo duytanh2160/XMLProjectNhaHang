@@ -22,7 +22,6 @@
             android:textSize="30dp"
             android:textStyle="bold"
             android:textColor="#FFFF"
-
             android:visibility="visible" />
 
             <ListView
@@ -34,6 +33,32 @@
                 android:divider="#263249"
                 android:dividerHeight="7dp"
                 android:layout_above="@+id/buttonOrderConfirm"></ListView>
+
+        <RelativeLayout
+            android:id="@+id/loadingLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/gifImageView"
+                android:layout_width="match_parent"
+                android:layout_height="87dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/loader" />
+
+            <TextView
+                android:id="@+id/loadingText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/gifImageView"
+                android:text="ĐANG XỬ LÝ"
+                android:textAlignment="center"
+                android:textColor="#FFFF"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
 
 
         <at.markushi.ui.CircleButton

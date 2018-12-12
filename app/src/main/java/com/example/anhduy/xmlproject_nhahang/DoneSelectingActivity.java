@@ -2,9 +2,11 @@ package com.example.anhduy.xmlproject_nhahang;
 //http://codepad.org/sqO2o5nf
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +32,19 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.jar.Attributes;
 
 import at.markushi.ui.CircleButton;
@@ -45,11 +60,10 @@ public class DoneSelectingActivity extends Activity {
     Bundle packageFromCaller;
 
     ArrayList<Menu> database;
-    ArrayList<Integer> selectedFoodPosition;
-    ArrayList<Integer> listSoLuong;             //Lưu số lượng của các món đã chọn.
-    ArrayList<Integer> listFoodSizeIndex;
-    ArrayList<Integer> listTotalPrice;
+    Orders order;
     int TotalPrice;
+    RelativeLayout loadingLayout;
+    TextView loadingText;
 
 
 
@@ -62,35 +76,60 @@ public class DoneSelectingActivity extends Activity {
 
         LoadListView();
 
+        orderButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View view) {
+                /*AddOrder task = new AddOrder(order,SelectingTable.SoBan);
+                task.execute(new String[]{""});
+                Intent intent = new Intent(getApplicationContext(), Receipt.class);
+                startActivity(intent);*/
+                loadingLayout.setVisibility(View.VISIBLE);
+                AddOrdersViaSQL task = new AddOrdersViaSQL(order,SelectingTable.SoBan,database,DoneSelectingActivity.this,loadingLayout,loadingText);
+                task.execute(new String[]{""});
+            }
+        });
+
 
     }
 
+    private static java.sql.Date convertUtilToSql(java.util.Date uDate) {
+        java.sql.Date sDate = new java.sql.Date(uDate.getTime());
+        return sDate;
+    }
+
+
     private void Init(){
+        loadingLayout = (RelativeLayout)findViewById(R.id.loadingLayout);
+        loadingLayout.setVisibility(View.GONE);
+        loadingText = (TextView)findViewById(R.id.loadingText);
+
+        order = new Orders();
         callerIntent = getIntent();
         packageFromCaller = callerIntent.getBundleExtra("Package");
 
 
         database = new ArrayList<Menu>();
         database = SelectingTable.database;
-        selectedFoodPosition = packageFromCaller.getIntegerArrayList("SelectedFood");
+        order.selectedFoodPosition = packageFromCaller.getIntegerArrayList("SelectedFood");
 
         //Khởi tạo, gán cho số lượng món đã được chọn = 1
-        listSoLuong = new ArrayList<Integer>();
-        for (int i = 0; i < selectedFoodPosition.size(); i++) {
-            listSoLuong.add(1);
+        order.listSoLuong = new ArrayList<Integer>();
+        for (int i = 0; i < order.selectedFoodPosition.size(); i++) {
+            order.listSoLuong.add(1);
         }// Khởi tạo giá trị.
 
 
-        listFoodSizeIndex = new ArrayList<Integer>();
-        for (int i = 0; i < selectedFoodPosition.size(); i++) {
-            listFoodSizeIndex.add(0);
+        order.listFoodSizeIndex = new ArrayList<Integer>();
+        for (int i = 0; i < order.selectedFoodPosition.size(); i++) {
+            order.listFoodSizeIndex.add(0);
         }
 
 
         //Gán tổng giá các món = 0
-        listTotalPrice = new ArrayList<Integer>();
-        for (int i = 0; i < selectedFoodPosition.size(); i++) {
-            listTotalPrice.add(database.get(selectedFoodPosition.get(i)).PriceBig);
+        order.listTotalPrice = new ArrayList<Integer>();
+        for (int i = 0; i < order.selectedFoodPosition.size(); i++) {
+            order.listTotalPrice.add(database.get(order.selectedFoodPosition.get(i)).PriceBig);
         }
 
         customAdapter = new CustomAdapter();
@@ -105,7 +144,7 @@ public class DoneSelectingActivity extends Activity {
     public class CustomAdapter extends BaseAdapter{
         @Override
         public int getCount() {
-            return selectedFoodPosition.size();
+            return order.selectedFoodPosition.size();
         }
 
         @Override
@@ -144,17 +183,17 @@ public class DoneSelectingActivity extends Activity {
 
 
             //Gán giá trị khi mới load activity
-            editText_SoLuong.setText(listSoLuong.get(i).toString());
-            spinner.setSelection(listFoodSizeIndex.get(i));
+            editText_SoLuong.setText(order.listSoLuong.get(i).toString());
+            spinner.setSelection(order.listFoodSizeIndex.get(i));
 
             String name = "";
             String priceSmall = "";
             String priceBig = "";
 
-            name += database.get(selectedFoodPosition.get(i)).Name;
-            priceSmall += AddADotForPrice(Integer.toString(database.get(selectedFoodPosition.get(i)).PriceSmall));
-            priceBig +=  AddADotForPrice(Integer.toString(database.get(selectedFoodPosition.get(i)).PriceBig));
-            Picasso.get().load(database.get(selectedFoodPosition.get(i)).ImageUrl).into(imgView);
+            name += database.get(order.selectedFoodPosition.get(i)).Name;
+            priceSmall += AddADotForPrice(Integer.toString(database.get(order.selectedFoodPosition.get(i)).PriceSmall));
+            priceBig +=  AddADotForPrice(Integer.toString(database.get(order.selectedFoodPosition.get(i)).PriceBig));
+            Picasso.get().load(database.get(order.selectedFoodPosition.get(i)).ImageUrl).into(imgView);
             textTenMon.setText(name);
             textGia.setText("N: " + priceSmall + " VND\nL: " + priceBig + " VND");
             text_ItemTotalPrice.setText(AddADotForPrice("" + priceBig));
@@ -168,7 +207,7 @@ public class DoneSelectingActivity extends Activity {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     if(editText_SoLuong.getText().toString().compareTo("")!= 0) {
-                        old = listTotalPrice.get(itemPosition);
+                        old = order.listTotalPrice.get(itemPosition);
                     }
                 }
 
@@ -176,11 +215,11 @@ public class DoneSelectingActivity extends Activity {
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     if (editText_SoLuong.getText().toString().compareTo("") != 0) {
                         int soLuong = Integer.parseInt(editText_SoLuong.getText().toString());
-                        listSoLuong.set(itemPosition,soLuong);
+                        order.listSoLuong.set(itemPosition,soLuong);
                         if (soLuong > 0) {
                             int price = GetPrice(spinner,itemPosition);
-                            listTotalPrice.set(itemPosition,soLuong * price);
-                            text_ItemTotalPrice.setText(AddADotForPrice("" + listTotalPrice.get(itemPosition)));
+                            order.listTotalPrice.set(itemPosition,soLuong * price);
+                            text_ItemTotalPrice.setText(AddADotForPrice("" + order.listTotalPrice.get(itemPosition)));
                             text_TotalPrice.setText(AddADotForPrice("" + GetTotalPrice()));
                         } else {
                             text_ItemTotalPrice.setText("0");
@@ -201,7 +240,7 @@ public class DoneSelectingActivity extends Activity {
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    int old = listTotalPrice.get(itemPosition);
+                    int old = order.listTotalPrice.get(itemPosition);
 
                     if(editText_SoLuong.getText().toString().compareTo("") == 0){
                         editText_SoLuong.setText("1");
@@ -209,12 +248,12 @@ public class DoneSelectingActivity extends Activity {
 
                     int soLuong = Integer.parseInt(editText_SoLuong.getText().toString());
                     int price = GetPrice(spinner,itemPosition);
-                    listSoLuong.set(itemPosition,soLuong);
-                    listTotalPrice.set(itemPosition,soLuong * price);
-                    text_ItemTotalPrice.setText(AddADotForPrice("" + listTotalPrice.get(itemPosition)));
+                    order.listSoLuong.set(itemPosition,soLuong);
+                    order.listTotalPrice.set(itemPosition,soLuong * price);
+                    text_ItemTotalPrice.setText(AddADotForPrice("" + order.listTotalPrice.get(itemPosition)));
                     text_TotalPrice.setText(AddADotForPrice("" + GetTotalPrice()));
 
-                    listFoodSizeIndex.set(itemPosition,spinner.getSelectedItemPosition());
+                    order.listFoodSizeIndex.set(itemPosition,spinner.getSelectedItemPosition());
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView) {
@@ -227,7 +266,7 @@ public class DoneSelectingActivity extends Activity {
 
     private int GetTotalPrice(){
         int result = 0;
-        for (int i : listTotalPrice){
+        for (int i : order.listTotalPrice){
             result += i;
         }
         return result;
@@ -237,9 +276,9 @@ public class DoneSelectingActivity extends Activity {
     //Lấy ra giá của món ăn tương ứng với size đã chọn
     private int GetPrice(Spinner spinner,int i){
         if (spinner.getSelectedItem().toString().compareTo("Lớn") == 0) {
-            return database.get(selectedFoodPosition.get(i)).PriceBig;
+            return database.get(order.selectedFoodPosition.get(i)).PriceBig;
         } else {
-            return database.get(selectedFoodPosition.get(i)).PriceSmall;
+            return database.get(order.selectedFoodPosition.get(i)).PriceSmall;
         }
     }
 
@@ -247,9 +286,7 @@ public class DoneSelectingActivity extends Activity {
     //Khi click button
     //Lưu các lựa chọn được lưu ở màn hình
     public void orderConfirmFunction(View view){
-        Intent intent = new Intent(getApplicationContext(), Receipt.class);
 
-        startActivity(intent);
     }
 
 
