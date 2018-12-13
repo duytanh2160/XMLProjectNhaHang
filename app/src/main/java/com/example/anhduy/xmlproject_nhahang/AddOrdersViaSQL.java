@@ -26,6 +26,8 @@ public class AddOrdersViaSQL extends AsyncTask<String,Integer,String> {
 
     public Orders order;
     public int STTBan;
+    public int id;
+
     ArrayList<Menu> database;
     Activity activity;
     RelativeLayout loadingLayout;
@@ -58,7 +60,7 @@ public class AddOrdersViaSQL extends AsyncTask<String,Integer,String> {
             String Q3 = "insert into ChiTietPhieuDat " + "values(?,?,?,?,?);";
             PreparedStatement pre;
             Statement st;
-            int id = 0;
+            id = 0;
 
             st = conn.CONN().createStatement();
             pre = conn.CONN().prepareStatement(Q1);
@@ -108,6 +110,7 @@ public class AddOrdersViaSQL extends AsyncTask<String,Integer,String> {
             Bundle bundle = new Bundle();
             bundle.putIntegerArrayList("SelectedFood",order.selectedFoodPosition);
             bundle.putIntegerArrayList("TotalPrice",order.listTotalPrice);
+            bundle.putInt("LastedId",id);
 
             Intent intent = new Intent(activity, Receipt.class);
             intent.putExtra("Package",bundle);

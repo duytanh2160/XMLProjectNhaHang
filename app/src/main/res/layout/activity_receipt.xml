@@ -80,8 +80,47 @@
             android:divider="#263249"
             android:dividerHeight="1dp"
             android:background="#C8C9E5"
+            android:layout_above="@+id/AddMoreButton"
             >
         </ListView>
+
+
+        <RelativeLayout
+            android:id="@+id/loadingLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/gifImageView"
+                android:layout_width="match_parent"
+                android:layout_height="87dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/loader" />
+
+            <TextView
+                android:id="@+id/loadingText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/gifImageView"
+                android:text="ĐANG XỬ LÝ"
+                android:textAlignment="center"
+                android:textColor="#FFFF"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+
+
+        <Button
+            android:id="@+id/AddMoreButton"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Đặt thêm món"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            >
+        </Button>
 
 
     </RelativeLayout>
