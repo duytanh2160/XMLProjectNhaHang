@@ -7,12 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
+import org.w3c.dom.Text;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -23,17 +23,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class DeleteOrder extends AsyncTask<String,Integer,String> {
+public class CheckOrderStatus extends AsyncTask<String,Integer,String> {
 
-    private int ID;
-    private Activity activity;
-    private RelativeLayout loadingLayout;
-    private TextView loadingText;
+    public int ID;
+    TextView textStatus;
 
-    public DeleteOrder(int id,Activity activity,RelativeLayout loadingLayout) {
+    public CheckOrderStatus(int id, TextView TextStatus) {
         this.ID = id;
-        this.activity = activity;
-        this.loadingLayout = loadingLayout;
+        this.textStatus = TextStatus;
     }
 
     @Override
@@ -42,42 +39,45 @@ public class DeleteOrder extends AsyncTask<String,Integer,String> {
             ConnectionClass conn = new ConnectionClass();
 
             String Q0 = "select TinhTrang from PhieuDatMon " + "where IDPhieuDat = " + ID;
-            String Q1 = "delete from ChiTietPhieuDat " + "where IDPhieuDat = " + ID;
-            String Q2 = "delete from PhieuDatMon " + "where IDPhieuDat = " + ID + " and TinhTrang = 0";
 
             Statement st;
             int TinhTrang = 5555;
             st = conn.CONN().createStatement();
 
+
             ResultSet rs = st.executeQuery(Q0);
             while (rs.next()) {
                 TinhTrang = rs.getInt("TinhTrang");
             }
-
-            if(TinhTrang == 0){
-                st.executeUpdate(Q1);
-                st.executeUpdate(Q2);
+            st.close();
+            if(TinhTrang == 0 || TinhTrang == 1 || TinhTrang == 2){
+                return "" + TinhTrang;
             }else{
                 return "False";
             }
-
-
-            st.close();
         }catch (SQLException e) {
             return "Failed";
         } catch (ClassNotFoundException e) {
             return "Failed";
         }
-        return "Success";
     }
 
     @Override
     protected void onPostExecute(String result) {
-        if(result.compareTo("Success")==0) {
-            activity.finish();
-        }else{
-            Toast.makeText(activity, "Phiếu đặt đã hoăc đang được xử lý, không thể hủy bỏ !", Toast.LENGTH_LONG).show();
+        if(result.compareTo("Failed") != 0){
+
+
+            if(result.compareTo("0") == 0){
+                textStatus.setText("Đang chờ");
+            }else if(result.compareTo("1") == 0){
+                textStatus.setText("Đang xử lý");
+            }else if(result.compareTo("2") == 0){
+                textStatus.setText("Đã hoàn thành");
+            }
+
+
+
+
         }
-        loadingLayout.setVisibility(View.GONE);
     }
 }

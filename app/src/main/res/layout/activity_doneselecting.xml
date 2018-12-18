@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerVertical="true"
-    android:background="#7E8AA2"
+    android:background="#EE602B"
     android:clickable="false"
 >
 
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/foodImage"
-            android:text="Tên món:"
+            android:text="TÊN MÓN:"
             android:textColor="#FFFF"
             android:textStyle="bold" />
 
@@ -41,7 +41,7 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/labelTen"
             android:hint="tên món"
-
+            android:textColor="#FFFF"
             />
 
         <TextView
@@ -52,6 +52,7 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/foodImage"
             android:text="Giá:"
+            android:textColor="#FFFF"
             android:textStyle="bold" />
 
         <TextView
@@ -61,7 +62,8 @@
             android:layout_below="@+id/text_Gia"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/foodImage"
-            android:text="Chọn phần:"
+            android:text="CHỌN PHẦN:"
+            android:textColor="#FFFF"
             android:textStyle="bold" />
 
         <Spinner
@@ -79,7 +81,8 @@
             android:layout_below="@+id/spinnerFoodSize"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/foodImage"
-            android:text="Số lượng:"
+            android:text="SỐ LƯỢNG:"
+            android:textColor="#FFFF"
             android:textStyle="bold" />
 
         <EditText
@@ -103,7 +106,8 @@
             android:layout_below="@+id/editText_SoLuong"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/foodImage"
-            android:text="Tổng tiền:"
+            android:text="TỔNG TIỀN:"
+            android:textColor="#FFFF"
             android:textStyle="bold" />
 
 
@@ -114,7 +118,9 @@
             android:layout_below="@+id/editText_SoLuong"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/labelTotalPrice"
-            android:text="0" />
+            android:text="0"
+            android:textColor="#FFFF"
+            />
 
         <TextView
             android:id="@+id/text_Gia"
@@ -124,6 +130,7 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/labelTen"
             android:text="vnd"
+            android:textColor="#FFFF"
 
             />
     </RelativeLayout>

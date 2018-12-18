@@ -21,10 +21,13 @@ import com.squareup.picasso.Picasso;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Receipt extends AppCompatActivity {
 
     TextView textTotalReceiptPrice;
+    TextView textStatus;
     ListView listView;
     Button addMoreButton;
 
@@ -63,6 +66,17 @@ public class Receipt extends AppCompatActivity {
             }
         });
 
+
+
+
+        Timer t = new Timer();
+        t.scheduleAtFixedRate(new TimerTask() {
+                                  @Override
+                                  public void run() {
+                                      CheckOrderStatus task = new CheckOrderStatus(id,textStatus);
+                                      task.execute(new String[]{""});
+                                  }
+                              },0,10000);
     }
 
 
@@ -99,6 +113,7 @@ public class Receipt extends AppCompatActivity {
         loadingLayout = (RelativeLayout)findViewById(R.id.loadingLayout);
         loadingLayout.setVisibility(View.GONE);
         loadingText = (TextView)findViewById(R.id.loadingText);
+        textStatus = (TextView)findViewById(R.id.textStatus);
 
         textTotalReceiptPrice = (TextView)findViewById(R.id.textTotalPrice);
         listView = (ListView)findViewById(R.id.OrderListView);

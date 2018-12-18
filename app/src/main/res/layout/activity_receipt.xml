@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#263346"
+        android:background="#590B32"
         tools:layout_editor_absoluteX="38dp"
         tools:layout_editor_absoluteY="16dp">
 
@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:id="@+id/TotalPriceLayout"
             android:orientation="horizontal"
-            android:background="#7E8AA2"
+            android:background="#93AB3D"
             android:layout_below="@id/labelTitle"
             >
 
@@ -45,6 +45,34 @@
                 android:textColor="#FFFF"
                 android:id="@+id/labelTotalPrice"
                 />
+
+            <TextView
+                android:id="@+id/labelStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/ Trạng thái:"
+                android:textSize="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="5dp"
+                android:textColor="#FFFF"
+                android:layout_toRightOf="@id/labelTotalPrice"
+                />
+
+            <TextView
+                android:id="@+id/textStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chờ"
+                android:textSize="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="5dp"
+                android:textColor="#FFFF"
+                android:layout_toRightOf="@id/labelStatus"
+                />
+
+
             <TextView
                 android:id="@+id/textTotalPrice"
                 android:layout_width="wrap_content"
@@ -79,7 +107,7 @@
             android:layout_below="@+id/ThankText"
             android:divider="#263249"
             android:dividerHeight="1dp"
-            android:background="#C8C9E5"
+            android:background="#EE602B"
             android:layout_above="@+id/AddMoreButton"
             >
         </ListView>
@@ -87,26 +115,31 @@
 
         <RelativeLayout
             android:id="@+id/loadingLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="#D9000000"
+            android:padding="10dp"
+            >
 
             <pl.droidsonroids.gif.GifImageView
                 android:id="@+id/gifImageView"
                 android:layout_width="match_parent"
                 android:layout_height="87dp"
-                android:layout_centerVertical="true"
                 android:src="@drawable/loader" />
 
             <TextView
                 android:id="@+id/loadingText"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/gifImageView"
-                android:text="ĐANG XỬ LÝ"
+                android:text="ĐANG TẢI"
                 android:textAlignment="center"
                 android:textColor="#FFFF"
                 android:textSize="20dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"
+                />
 
         </RelativeLayout>
 

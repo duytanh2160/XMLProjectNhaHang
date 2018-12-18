@@ -80,10 +80,6 @@ public class DoneSelectingActivity extends Activity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
-                /*AddOrder task = new AddOrder(order,SelectingTable.SoBan);
-                task.execute(new String[]{""});
-                Intent intent = new Intent(getApplicationContext(), Receipt.class);
-                startActivity(intent);*/
                 loadingLayout.setVisibility(View.VISIBLE);
                 AddOrdersViaSQL task = new AddOrdersViaSQL(order,SelectingTable.SoBan,database,DoneSelectingActivity.this,loadingLayout,loadingText);
                 task.execute(new String[]{""});

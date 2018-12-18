@@ -21,6 +21,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="30dp"
                 android:text="TÊN MÓN ĂN"
+                android:textColor="#FFFF"
+                android:textStyle="bold"
                 android:id="@+id/textTenMon"/>
 
         </RelativeLayout>
@@ -37,6 +39,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="30dp"
                 android:text="100.000 VND"
+                android:textColor="#FFFF"
+                android:textStyle="bold"
                 android:id="@+id/textGia"/>
         </RelativeLayout>
 

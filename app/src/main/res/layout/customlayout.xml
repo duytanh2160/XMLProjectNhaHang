@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerVertical="true"
-    android:background="#7E8AA2"
+    android:background="#EE602B"
     android:clickable="false"
     android:descendantFocusability="blocksDescendants">
 
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/foodImage"
-        android:text="Tên món:"
+        android:text=".TÊN MÓN:"
         android:textStyle="bold"
         android:textColor="#FFFF"
         />
@@ -43,7 +43,7 @@
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/labelTen"
         android:text="Cơm chiên"
-
+        android:textColor="#FFFF"
         />
 
     <TextView
@@ -53,7 +53,8 @@
         android:layout_below="@+id/text_TenMon"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/foodImage"
-        android:text="Giá:"
+        android:text=".GIÁ:"
+        android:textColor="#FFFF"
         android:textStyle="bold" />
 
     <TextView
@@ -64,7 +65,7 @@
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/labelTen"
         android:text="10$"
-
+        android:textColor="#FFFF"
         />
 
     <TextView
@@ -74,7 +75,9 @@
         android:layout_below="@+id/text_Gia"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/foodImage"
-        android:text="Miêu tả:"
+        android:text=".MIÊU TẢ:"
+        android:layout_marginTop="15dp"
+        android:textColor="#FFFF"
         android:textStyle="bold" />
 
     <TextView
@@ -84,7 +87,11 @@
         android:layout_below="@+id/text_Gia"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/labelTen"
-        android:text="Ngon bổ rẽ !" />
+        android:text="Ngon bổ rẽ !"
+        android:layout_marginRight="26dp"
+        android:layout_marginTop="15dp"
+        android:textColor="#FFFF"
+        />
 
     <CheckBox
         android:id="@+id/checkBox"

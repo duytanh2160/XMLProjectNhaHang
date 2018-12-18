@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#263346"
+        android:background="#590B32"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp">
 
@@ -49,26 +49,31 @@
 
         <RelativeLayout
             android:id="@+id/loadingLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="#D9000000"
+            android:padding="10dp"
+            >
 
             <pl.droidsonroids.gif.GifImageView
                 android:id="@+id/gifImageView"
                 android:layout_width="match_parent"
                 android:layout_height="87dp"
-                android:layout_centerVertical="true"
                 android:src="@drawable/loader" />
 
             <TextView
                 android:id="@+id/loadingText"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/gifImageView"
                 android:text="ĐANG TẢI"
                 android:textAlignment="center"
                 android:textColor="#FFFF"
                 android:textSize="20dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"
+                />
 
         </RelativeLayout>
 
@@ -85,12 +90,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="20dp"
-                android:dividerHeight="7dp"></ListView>
+                android:dividerHeight="3dp"></ListView>
         </android.support.v4.widget.SwipeRefreshLayout>
 
         <Button
             android:id="@+id/button_Done"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="59dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
